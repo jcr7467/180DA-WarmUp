@@ -10,8 +10,7 @@ def on_connect(client, userdata, flags, rc):
     print("Connection returned result: "+str(rc))
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    client.subscribe("ece180d/test/server")
-
+    client.subscribe("ece180da/test1") # COPY THIS
 
 # The callback of the client when it disconnects.
 def on_disconnect(client, userdata, rc):
@@ -27,7 +26,8 @@ def on_disconnect(client, userdata, rc):
 def on_message(client, userdata, message):
     print("Received message: '" + str(message.payload) + "' on topic '" +
         message.topic + "' with QoS " + str(message.qos))
-    client.publish("ece180d/test/client", int(message.payload) + 1)
+    client.publish("ece180da/test2", int(message.payload.decode()) + 1, qos=1) # COPY THIS
+
 
 
 
@@ -58,7 +58,7 @@ client.loop_start()
 # payload must be a string, bytearray, int, float or None.
 print("Publishing...")
 
-client.publish("ece180d/test/client", int(1), qos=1)
+client.publish("ece180da/test2", int(1), qos=1)
 
 
 
